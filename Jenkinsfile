@@ -22,7 +22,7 @@ pipeline {
                         build job: 'deploy-to-staging-maven-project'
                     },
                     check: {
-                        build job: static-analysis-maven-project'
+                        build job: 'static-analysis-maven-project'
                     }
                 )
             }
