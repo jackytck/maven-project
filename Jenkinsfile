@@ -17,7 +17,14 @@ pipeline {
         }
         stage ('Deploy to Staging') {
             steps {
-                build job: 'deploy-to-staging-maven-project,static-analysis-maven-project'
+                parallel {
+                    deploy: {
+                        build job: 'deploy-to-staging-maven-project'
+                    },
+                    check: {
+                        build job: static-analysis-maven-project'
+                    }
+                }
             }
         }
     }
