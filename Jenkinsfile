@@ -15,6 +15,11 @@ pipeline {
                 }
             }
         }
+        stage ('Docker') {
+            steps {
+                sh "docker build . -t tomcatwebapp:${env.BUILD_ID}"
+            }
+        }
         stage ('Deploy to Staging') {
             steps {
                 parallel(
