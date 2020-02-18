@@ -10,7 +10,7 @@ pipeline {
             }
             post {
                 success {
-                    echo 'Now Archiving...'
+                    echo 'Now Archiving war...'
                     archiveArtifacts artifacts: '**/*.war'
                 }
             }
@@ -18,6 +18,14 @@ pipeline {
         stage ('Docker') {
             steps {
                 sh "docker build . -t tomcatwebapp:${env.BUILD_ID}"
+                sh "docker save -o webapp.docker tomcatwebapp:${env.BUILD_ID}"
+            }
+            post {
+                success {
+                    echo 'Now Archiving docker image...'
+                    archiveArtifacts artifacts: 'webapp.docker'
+                    sh 'rm webapp.docker'
+                }
             }
         }
         stage ('Deploy to Staging') {
